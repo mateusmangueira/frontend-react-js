@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { FaGithubAlt, FaPlus, FaSpinner } from 'react-icons/fa';
+import {Link} from 'react-router-dom';
 
 import api from '../../services/api';
 
@@ -22,7 +23,6 @@ export default class Main extends Component {
         repositories: JSON.parse(repositories)
       })
     }
-
   }
   // Para salvar os dados no localStorage
   componentDidUpdate(_, prevState) {
@@ -31,7 +31,6 @@ export default class Main extends Component {
     if(prevState.repositories !== repositories) {
       localStorage.setItem('repositories', JSON.stringify(repositories))
     }
-
   }
 
   handleInputChange = e => {
@@ -83,9 +82,9 @@ export default class Main extends Component {
               <span>
                 {repository.name}
               </span>
-              <a href="#">
+              <Link to={`/repository/${encodeURIComponent(repository.name)}`}>
                 Detalhes
-              </a>
+              </Link>
             </li>
           ))}
         </List>
