@@ -9,11 +9,12 @@ import { Loading, Owner, IssueList } from './styles';
 
 export default class Repository extends Component {
   static propTypes = {
+    //Tipo objeto no proptypes eh .shape({})
     match: PropTypes.shape({
       params: PropTypes.shape({
         repository: PropTypes.string,
       }),
-    }).isRequired
+    }).isRequired,
   };
 
   state = {
@@ -24,17 +25,15 @@ export default class Repository extends Component {
 
   async componentDidMount() {
     const { match } = this.props;
-
     const repoName = decodeURIComponent(match.params.repository);
-
     const [repository, issues] = await Promise.all([
       api.get(`/repos/${repoName}`),
       api.get(`/repos/${repoName}/issues,`, {
         params: {
           state: 'open',
           per_page: 5,
-        }
-      })
+        },
+      }),
     ]);
 
     this.setState({
@@ -49,26 +48,17 @@ export default class Repository extends Component {
     const { repository, issues, loading } = this.state;
 
     if (loading) {
-      return <Loading>
-        Carregando...
-      </Loading>
+      return <Loading>Carregando</Loading>;
     }
 
     return (
       <Container>
         <Owner>
-          <Link to='/'>
-            Voltar aos Repositórios
-          </Link>
+          <Link to='/'> Voltar aos Repositórios </Link>
           <img src={repository.owner.avatar_url} alt={repository.owner.login} />
-          <h1>
-            {repository.name}
-          </h1>
-          <p>
-            {repository.description}
-          </p>
+          <h1>{repository.name}</h1>
+          <p>{repository.description}</p>
         </Owner>
-
         <IssueList>
           {issues.map(issue => (
             <li key={String(issue.id)}>
@@ -77,14 +67,10 @@ export default class Repository extends Component {
                 <strong>
                   <a href={issue.html_url}>{issue.title}</a>
                   {issue.labels.map(label => (
-                    <span key={String(label.id)}>
-                      {label.name}
-                    </span>
+                    <span key={String(label.id)}>{label.name}</span>
                   ))}
                 </strong>
-                <p>
-                  {issue.user.login}
-                </p>
+                <p>{issue.user.login}</p>
               </div>
             </li>
           ))}
