@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 
 import { FaGithubAlt, FaPlus, FaSpinner } from 'react-icons/fa';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import api from '../../services/api';
 
-import { Container, Form, SubmitButton, List } from './styles';
+import Container from '../../components/Container';
+
+import { Form, SubmitButton, List } from './styles';
 
 export default class Main extends Component {
   state = {
@@ -18,7 +20,7 @@ export default class Main extends Component {
   componentDidMount() {
     const repositories = localStorage.getItem('repositories');
 
-    if(repositories) {
+    if (repositories) {
       this.setState({
         repositories: JSON.parse(repositories)
       })
@@ -26,9 +28,9 @@ export default class Main extends Component {
   }
   // Para salvar os dados no localStorage
   componentDidUpdate(_, prevState) {
-    const {repositories} = this.state;
+    const { repositories } = this.state;
 
-    if(prevState.repositories !== repositories) {
+    if (prevState.repositories !== repositories) {
       localStorage.setItem('repositories', JSON.stringify(repositories))
     }
   }
